@@ -38,6 +38,7 @@ pipeline {
             steps {
                 bat '''
                     docker rm -f BackendCont || true
+                    docker rm -f FrontendCont || true
                     docker-compose down || true
                     docker-compose pull
                     docker-compose up -d --build
