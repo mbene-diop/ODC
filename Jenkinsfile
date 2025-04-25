@@ -37,6 +37,7 @@ pipeline {
         stage('Déploiement local avec Docker Compose') {
             steps {
                 bat '''
+                    docker rm -f BackendCont || true
                     docker-compose down || true
                     docker-compose pull
                     docker-compose up -d --build
