@@ -1,8 +1,9 @@
-FROM node:18-alpine AS build
+FROM node:18 AS build
 WORKDIR /app
 COPY package*.json ./
 RUN npm install
 COPY . .
+RUN npm rebuild lightningcss
 RUN npm run build
 
 FROM nginx:stable-alpine AS production
