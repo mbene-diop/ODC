@@ -15,20 +15,21 @@ pipeline {
                     url: 'https://github.com/mbene-diop/ODC.git'
             }
         }
+
         stage('Build des images') {
             steps {
-                bat 'docker build -t $BACKEND_IMAGE:latest ./Backend-main/odc'
-                bat 'docker build -t $FRONTEND_IMAGE:latest ./Frontend-main'
-                bat 'docker build -t $MIGRATE_IMAGE:latest ./Backend-main/odc'
+                bat 'docker build -t %BACKEND_IMAGE%:latest ./Backend-main/odc'
+                bat 'docker build -t %FRONTEND_IMAGE%:latest ./Frontend-main'
+                bat 'docker build -t %MIGRATE_IMAGE%:latest ./Backend-main/odc'
             }
         }
 
         stage('Push des images sur Docker Hub') {
             steps {
-                withDockerRegistry([credentialsId: 'mbene', url: " "]) {
-                    bat 'docker push $BACKEND_IMAGE:latest'
-                    bat 'docker push $FRONTEND_IMAGE:latest'
-                    bat 'docker push $MIGRATE_IMAGE:latest'
+                withDockerRegistry([credentialsId: 'mbene', url: ""]) {
+                    bat 'docker push %BACKEND_IMAGE%:latest'
+                    bat 'docker push %FRONTEND_IMAGE%:latest'
+                    bat 'docker push %MIGRATE_IMAGE%:latest'
                 }
             }
         }
@@ -55,5 +56,5 @@ pipeline {
                  subject: "❌ Échec",
                  body: "Une erreur s’est produite"
         }
-    }*/
+    } */
 }
