@@ -26,7 +26,7 @@ pipeline {
 
         stage('Push des images sur Docker Hub') {
             steps {
-                withDockerRegistry([credentialsId: 'mbene', url: ""]) {
+                withDockerRegistry([credentialsId: 'soufa', url: ""]) {
                     bat 'docker push %BACKEND_IMAGE%:latest'
                     bat 'docker push %FRONTEND_IMAGE%:latest'
                     bat 'docker push %MIGRATE_IMAGE%:latest'
