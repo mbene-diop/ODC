@@ -19,7 +19,7 @@ pipeline {
         stage('Analyse SonarQube') {
             steps {
                 withSonarQubeEnv('SonarQube') {
-                    bat 'sonar'
+                    bat 'sonar-scanner -Dsonar.projectKey=mben -Dsonar.sources=. -Dsonar.projectName="ODC" -Dsonar.sourceEncoding=UTF-8'
                 }
             }
         }
