@@ -8,11 +8,24 @@ pipeline {
         MIGRATE_IMAGE = "${DOCKER_USER}/odc_docker-migrate"
     }
 
+    tools {
+        // Assure-toi que SonarScanner est bien déclaré dans Jenkins
+        sonarScanner 'SonarScanner'
+    }
+
     stages {
         stage('Cloner le dépôt') {
             steps {
                 git branch: 'main',
                     url: 'https://github.com/mbene-diop/ODC.git'
+            }
+        }
+
+        stage('Analyse SonarQube') {
+            steps {
+                withSonarQubeEnv('SonarLocal') {
+                    bat 'sonar-scanner'
+                }
             }
         }
 
@@ -47,10 +60,11 @@ pipeline {
         }
     }
 
-    /*post {
+    /*
+    post {
         success {
             mail to: 'nayoh.diop@gmail.com',
-                 subject: "reussite",
+                 subject: "réussite",
                  body: "L'application a été déployée."
         }
         failure {
@@ -58,5 +72,6 @@ pipeline {
                  subject: "❌ Échec",
                  body: "Une erreur s’est produite"
         }
-    } */
+    }
+    */
 }
