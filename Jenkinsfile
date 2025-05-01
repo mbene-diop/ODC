@@ -23,8 +23,8 @@ pipeline {
 
         stage('Analyse SonarQube') {
             steps {
-                withSonarQubeEnv('SonarLocal') {
-                    bat 'sonar-scanner'
+                withSonarQubeEnv('SonarQube') {
+                    bat 'sonar-scanner -Dsonar.projectKey=mben -Dsonar.sources=. -Dsonar.projectName="ODC" -Dsonar.host.url=http://localhost:9000'
                 }
             }
         }
