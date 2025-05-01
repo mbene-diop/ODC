@@ -8,11 +8,6 @@ pipeline {
         MIGRATE_IMAGE = "${DOCKER_USER}/odc_docker-migrate"
     }
 
-    tools {
-        // Assure-toi que SonarScanner est bien déclaré dans Jenkins
-        sonarScanner 'SonarScanner'
-    }
-
     stages {
         stage('Cloner le dépôt') {
             steps {
@@ -24,7 +19,7 @@ pipeline {
         stage('Analyse SonarQube') {
             steps {
                 withSonarQubeEnv('SonarQube') {
-                    bat 'sonar-scanner -Dsonar.projectKey=mben -Dsonar.sources=. -Dsonar.projectName="ODC" -Dsonar.host.url=http://localhost:9000'
+                    bat 'sonar-scanner -Dsonar.projectKey=mben -Dsonar.sources=. -Dsonar.projectName="ODC" -Dsonar.sourceEncoding=UTF-8'
                 }
             }
         }
