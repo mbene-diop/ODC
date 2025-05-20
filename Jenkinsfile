@@ -15,37 +15,38 @@ pipeline {
                     url: 'https://github.com/mbene-diop/ODC.git'
             }
         }
-/*
+
+        /*
         stage('Analyse SonarQube') {
             steps {
                 withSonarQubeEnv('SonarQube') {
-                    bat '"C:\\Users\\hp\\Desktop\\sonar-scanner\\bin\\sonar-scanner.bat" -Dsonar.projectKey=mben -Dsonar.sources=. -Dsonar.projectName="ODC" -Dsonar.sourceEncoding=UTF-8'
-
+                    sh '/chemin/vers/sonar-scanner -Dsonar.projectKey=mben -Dsonar.sources=. -Dsonar.projectName="ODC" -Dsonar.sourceEncoding=UTF-8'
                 }
             }
         }
-*/
+        */
+
         stage('Build des images') {
             steps {
-                bat 'docker build -t %BACKEND_IMAGE%:latest ./Backend-main/odc'
-                bat 'docker build -t %FRONTEND_IMAGE%:latest ./Frontend-main'
-                bat 'docker build -t %MIGRATE_IMAGE%:latest ./Backend-main/odc'
+                sh 'docker build -t $BACKEND_IMAGE:latest ./Backend-main/odc'
+                sh 'docker build -t $FRONTEND_IMAGE:latest ./Frontend-main'
+                sh 'docker build -t $MIGRATE_IMAGE:latest ./Backend-main/odc'
             }
         }
 
         stage('Push des images sur Docker Hub') {
             steps {
                 withDockerRegistry([credentialsId: 'soufa', url: ""]) {
-                    bat 'docker push %BACKEND_IMAGE%:latest'
-                    bat 'docker push %FRONTEND_IMAGE%:latest'
-                    bat 'docker push %MIGRATE_IMAGE%:latest'
+                    sh 'docker push $BACKEND_IMAGE:latest'
+                    sh 'docker push $FRONTEND_IMAGE:latest'
+                    sh 'docker push $MIGRATE_IMAGE:latest'
                 }
             }
         }
 
         stage('Déploiement local avec Docker Compose') {
             steps {
-                bat '''
+                sh '''
                     docker rm -f BackendCont || true
                     docker rm -f FrontendCont || true
                     docker-compose down || true
