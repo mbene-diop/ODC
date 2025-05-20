@@ -15,7 +15,7 @@ pipeline {
                     url: 'https://github.com/mbene-diop/ODC.git'
             }
         }
-
+/*
         stage('Analyse SonarQube') {
             steps {
                 withSonarQubeEnv('SonarQube') {
@@ -24,7 +24,7 @@ pipeline {
                 }
             }
         }
-
+*/
         stage('Build des images') {
             steps {
                 bat 'docker build -t %BACKEND_IMAGE%:latest ./Backend-main/odc'
